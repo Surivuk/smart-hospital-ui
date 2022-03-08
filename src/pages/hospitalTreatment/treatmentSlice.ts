@@ -1,17 +1,30 @@
 import { IosShare } from '@mui/icons-material'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { MedicalCard } from '../../common/repository/MedicalCardRepository'
-import { Patient } from '../../common/repository/PatientRepository'
-import { Therapy } from '../../common/repository/TherapyRepository'
 
 interface TreatmentState {
-    therapies: { id: string, label: string, createdAt: string }[]
-    createdAt: string
+    therapies: { id: string, label: string, createdAt: string }[],
+    monitoring: {
+        SPO2: string
+        "systolic-blood-pressure": string
+        "diastolic-blood-pressure": string
+        PI: string
+        pulse: string
+        temperature: string
+        timestamp: string
+    }
 }
 
 const initialState: TreatmentState = {
     therapies: [],
-    createdAt: ""
+    monitoring: {
+        SPO2: "-",
+        "systolic-blood-pressure": "-",
+        "diastolic-blood-pressure": "-",
+        PI: "-",
+        pulse: "-",
+        temperature: "-",
+        timestamp: "-"
+    }
 }
 
 export const TreatmentCardSlice = createSlice({
@@ -19,16 +32,18 @@ export const TreatmentCardSlice = createSlice({
     initialState,
     reducers: {
         treatmentDataFetched: (state, { payload }) => {
-            return payload;
+            state.therapies = payload.therapies;
         },
-        // medicalCardFetched: (state, { payload }) => {
-        //     state.medicalCard = payload
-        // },
+        monitoringUpdated: (state, { payload }) => {
+            const key: "SPO2" | "PI" | "pulse" | "temperature" | "systolic-blood-pressure" | "diastolic-blood-pressure"  = payload.type
+            state.monitoring[key] = payload.value
+            state.monitoring["timestamp"] = new Date(payload.timestamp).toLocaleString()
+        },
         stateRestarted: () => {
             return initialState
         }
     }
 })
 
-export const { treatmentDataFetched, stateRestarted } = TreatmentCardSlice.actions
+export const { treatmentDataFetched, stateRestarted, monitoringUpdated } = TreatmentCardSlice.actions
 export default TreatmentCardSlice.reducer

@@ -15,7 +15,11 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import Monitoring from "./Monitoring";
 import { TherapyItem } from "./TherapyItem";
-import { fetchHospitalTreatmentData } from "./treatmentActions";
+import {
+  closeHospitalTreatment,
+  fetchHospitalTreatmentData,
+  openHospitalTreatment,
+} from "./treatmentActions";
 
 export default function HospitalTreatment() {
   const { treatmentId } = useParams();
@@ -25,7 +29,13 @@ export default function HospitalTreatment() {
   );
 
   React.useEffect(() => {
-    if (treatmentId) dispatch(fetchHospitalTreatmentData(treatmentId));
+    if (treatmentId) {
+      dispatch(fetchHospitalTreatmentData(treatmentId));
+      dispatch(openHospitalTreatment(treatmentId));
+    }
+    return () => {
+      dispatch(closeHospitalTreatment(treatmentId as string));
+    };
   }, [dispatch, treatmentId]);
 
   return (
@@ -49,12 +59,12 @@ export default function HospitalTreatment() {
       </Grid>
       <Divider />
       <Monitoring />
-      <Divider />
+
       <Grid container sx={{ paddingTop: 2, paddingRight: 2, paddingLeft: 2 }}>
-        <Grid xs>
+        <Grid item xs>
           <Typography variant="h5">Therapies</Typography>
         </Grid>
-        <Grid xs>
+        <Grid item xs>
           <Grid container direction="row" justifyContent="flex-end">
             <Tooltip title="Determine new therapy">
               <IconButton
