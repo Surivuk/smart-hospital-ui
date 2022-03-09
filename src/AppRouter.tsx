@@ -5,6 +5,8 @@ import Home from "./pages/home/Home";
 import HospitalTreatment from "./pages/hospitalTreatment/HospitalTreatment";
 import MedicalCard from "./pages/medicalCard/MedicalCard";
 import AddMedicament from "./pages/medicament/AddMedicament";
+import PrescribeTherapy from "./pages/therapy/PrescribeTherapy";
+import StaticTherapy from "./pages/therapy/StaticTherapy";
 import Therapy from "./pages/therapy/Therapy";
 
 export default function AppRouter() {
@@ -17,6 +19,9 @@ export default function AppRouter() {
           <Route path="medical-card/:id/hospital-treatments/:treatmentId" element={<HospitalTreatment />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId/therapies/:therapyId" element={<Therapy />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId/therapies/:therapyId/add-medicament" element={<AddMedicament />} />
+
+          <Route path="medical-card/:id/therapies/:therapyId" element={<StaticTherapy />} />
+          <Route path="medical-card/:id/prescribe-therapy" element={<PrescribeTherapy />} />
         </Route>
       </Routes>
     </div>

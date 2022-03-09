@@ -24,7 +24,6 @@ export default function PatientView({
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
         <Avatar
-          alt="Remy Sharp"
           src={gender === "male" ? "/images/man.png" : "/images/woman.png"}
         />
       </ListItemAvatar>

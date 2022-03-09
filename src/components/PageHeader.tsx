@@ -24,6 +24,7 @@ export default function PageHeader({
 }: PageHeaderProps) {
   const icon = React.useMemo(() => {
     if (iconType === "therapy") return "/images/drugs.png";
+    if (iconType === "medical-card-therapy") return "/images/therapies.png";
     if (iconType === "hospital-treatment")
       return "/images/hospital-treatments.png";
     if (iconType === "examination") return "/images/examinations.png";

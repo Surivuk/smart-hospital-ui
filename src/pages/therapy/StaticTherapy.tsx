@@ -17,15 +17,8 @@ import { useAppSelector } from "../../hooks";
 import { fetchTherapyData } from "./therapyActions";
 import { stateRestarted } from "./therapySlice";
 
-function ChangeLabelButton() {
-  return (
-    <IconButton>
-      <Settings />
-    </IconButton>
-  );
-}
 
-export default function Therapy() {
+export default function StaticTherapy() {
   const { therapyId, treatmentId } = useParams();
   const dispatch = useDispatch();
 
@@ -55,46 +48,8 @@ export default function Therapy() {
       />
 
       <Paper variant="outlined" sx={{ margin: 2 }}>
-        <Box sx={{ padding: 2 }}>
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            justifyContent="flex-start"
-          >
-            <Grid item xs>
-              <Typography variant="subtitle1">
-                Label: <strong>{label}</strong>
-              </Typography>
-            </Grid>
-            <Grid item xs>
-              <Grid
-                container
-                direction="row"
-                alignItems="center"
-                justifyContent="flex-end"
-              >
-                <ChangeLabelButton />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Divider />
         <Box sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}>
-          <Grid container direction="row" alignItems="center">
-            <Grid item xs>
-              <Typography variant="subtitle1">Medicaments</Typography>
-            </Grid>
-            <Grid item xs>
-              <Grid container direction="row" justifyContent="flex-end">
-                <Tooltip title="Add new medicament to the therapy">
-                  <IconButton component={Link} to={"add-medicament"}>
-                    <Add />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            </Grid>
-          </Grid>
+          <Typography variant="subtitle1">Medicaments</Typography>
         </Box>
         <Box sx={{ paddingButton: 2, paddingLeft: 2, paddingRight: 2 }}>
           <MedicamentsTable medicaments={medicaments} />

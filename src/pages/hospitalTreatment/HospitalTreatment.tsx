@@ -25,7 +25,7 @@ import {
 } from "./treatmentActions";
 
 export default function HospitalTreatment() {
-  const { treatmentId } = useParams();
+  const { id, treatmentId } = useParams();
   const dispatch = useDispatch();
   const therapies = useAppSelector(
     (state) => state.hospitalTreatment.therapies
@@ -43,11 +43,36 @@ export default function HospitalTreatment() {
 
   return (
     <div>
-      <PageHeader title="Hospital Treatment" subtitle={treatmentId as string} iconType="hospital-treatment" />
+      <PageHeader
+        title="Hospital Treatment"
+        subtitle={treatmentId as string}
+        iconType="hospital-treatment"
+      />
       <Monitoring />
 
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        sx={{ marginTop: -2, padding: 0 }}
+      >
+        <Typography variant="overline" align="center" component={Link} to={`/app/health-data?treatment=${treatmentId}&medicalCardId=${id}`}>
+          View health data history
+        </Typography>
+      </Grid>
+
       <Paper variant="outlined" sx={{ margin: 2 }}>
-        <Grid container sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2}} direction="row" alignItems="center">
+        <Grid
+          container
+          sx={{
+            paddingTop: 1,
+            paddingBottom: 1,
+            paddingLeft: 2,
+            paddingRight: 2,
+          }}
+          direction="row"
+          alignItems="center"
+        >
           <Grid item xs>
             <Typography variant="subtitle1">Therapies</Typography>
           </Grid>

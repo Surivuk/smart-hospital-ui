@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 function DeleteMedication({ medicamentId }: { medicamentId: string }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
-  const { therapyId } = useParams();
+  const { therapyId, treatmentId } = useParams();
 
   const handleClose = () => {
     setOpen(false);
@@ -25,13 +25,16 @@ function DeleteMedication({ medicamentId }: { medicamentId: string }) {
   return (
     <div>
       <Tooltip title="Remove medicament from treatment">
-        <IconButton
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          <Delete />
-        </IconButton>
+        <span>
+          <IconButton
+            disabled={!treatmentId}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <Delete />
+          </IconButton>
+        </span>
       </Tooltip>
       <AreYouSureDialog
         open={open}
@@ -58,7 +61,7 @@ const columns: GridColDef[] = [
     renderCell: (params) => (
       <DeleteMedication medicamentId={params.row.medicamentId} />
     ),
-    width: 80
+    width: 80,
   },
 ];
 
