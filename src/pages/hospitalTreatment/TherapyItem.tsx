@@ -13,9 +13,9 @@ export interface TherapyItemProps {
 }
 export function TherapyItem({ label, createdAt }: TherapyItemProps) {
   return (
-    <ListItem alignItems="flex-start">
+    <ListItem alignItems="flex-start" sx={{ padding: 0}}>
       <ListItemAvatar>
-        <Avatar src={"/images/determined-therapy.png"} />
+        <Avatar src={"/images/drugs.png"} />
       </ListItemAvatar>
       <ListItemText
         primary={label}

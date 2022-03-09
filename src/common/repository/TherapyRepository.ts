@@ -6,6 +6,7 @@ export type Therapy = {
     label: string
     medicaments: Medicament[]
 }
+
 export type Medicament = {
     medicamentId: string
     strength: number
@@ -30,6 +31,20 @@ export default class PatientRepository extends Api {
             method: "GET"
         })
         return result.data;
+    }
+    async addMedicament(therapy: string, medicament: Medicament): Promise<void> {
+        await this._nwc.request<any>({
+            url: this.url(`/therapies/${therapy}/add-medicament`),
+            method: "POST",
+            data: { medicament }
+        })
+    }
+    async removeMedicament(therapy: string, medicamentId: string): Promise<void> {
+        await this._nwc.request<any>({
+            url: this.url(`/therapies/${therapy}/remove-medicament`),
+            method: "POST",
+            data: { medicamentId }
+        })
     }
 
     // private map({ id, firstName, lastName, birthYear, gender }: any): Patient {

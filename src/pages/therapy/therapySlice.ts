@@ -16,19 +16,17 @@ export const TherapySlice = createSlice({
     initialState,
     reducers: {
         therapyDataFetched: (state, { payload }) => {
-            const {id, ...newState} = payload
+            const { id, ...newState } = payload
             return newState;
         },
-        // monitoringUpdated: (state, { payload }) => {
-        //     const key: "SPO2" | "PI" | "pulse" | "temperature" | "systolic-blood-pressure" | "diastolic-blood-pressure"  = payload.type
-        //     state.monitoring[key] = payload.value
-        //     state.monitoring["timestamp"] = new Date(payload.timestamp).toLocaleString()
-        // },
+        medicamentRemoved: (state, { payload }) => {
+            state.medicaments = state.medicaments.filter(m => m.medicamentId !== payload)
+        },
         stateRestarted: () => {
             return initialState
         }
     }
 })
 
-export const { stateRestarted, therapyDataFetched } = TherapySlice.actions
+export const { stateRestarted, therapyDataFetched, medicamentRemoved } = TherapySlice.actions
 export default TherapySlice.reducer

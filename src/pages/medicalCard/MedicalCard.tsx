@@ -1,13 +1,4 @@
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Divider,
-  Link,
-  List,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Grid, List, Paper, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -28,8 +19,8 @@ export default function MedicalCard() {
 
   React.useEffect(() => {
     return () => {
-      dispatch(stateRestarted())
-    }
+      dispatch(stateRestarted());
+    };
   }, [dispatch]);
 
   React.useEffect(() => {
@@ -37,28 +28,23 @@ export default function MedicalCard() {
   }, [dispatch, id]);
 
   return (
-    <div>
-      <Box sx={{ padding: 2 }}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
-            MUI
-          </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/getting-started/installation/"
-          >
-            Core
-          </Link>
-          <Typography color="text.primary">Breadcrumbs</Typography>
-        </Breadcrumbs>
-      </Box>
-      <Divider sx={{ marginBottom: 4 }} />
-      <Paper elevation={2} sx={{ marginLeft: 6, marginRight: 6 }}>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h5" sx={{ marginBottom: 2 }}>
+        Medical Card
+      </Typography>
+      <Paper variant="outlined" sx={{ marginBottom: 2 }}>
         {patient && <PatientView {...patient} />}
       </Paper>
-      <Box sx={{ padding: 2 }} />
-      <Paper elevation={2} sx={{ marginLeft: 6, marginRight: 6 }}>
+
+      <Paper variant="outlined" sx={{ marginBottom: 2 }}>
+        <Grid container direction="row" alignItems="center">
+          <Grid item xs><Button fullWidth>New Therapy</Button></Grid>
+          <Grid item xs><Button fullWidth>New Examination</Button></Grid>
+          <Grid item xs><Button fullWidth>New Treatment</Button></Grid>
+        </Grid>
+      </Paper>
+
+      <Paper variant="outlined">
         <List>
           {medicalCard ? (
             <MedicalCardView medicalCard={medicalCard} />
@@ -69,7 +55,6 @@ export default function MedicalCard() {
           )}
         </List>
       </Paper>
-      <Box sx={{ padding: 2 }} />
-    </div>
+    </Box>
   );
 }

@@ -1,6 +1,7 @@
-import { Container, Grid, Paper } from "@mui/material";
+import { Box, Container, Divider, Grid, Paper } from "@mui/material";
 import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import AppBreadcrumbs from "./components/AppBreadcrumbs";
 import AppNavigation from "./components/AppNavigation";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         </Grid>
 
         <Grid item xs={9}>
+          <AppBreadcrumbs />
           <Paper>
             <Outlet />
           </Paper>

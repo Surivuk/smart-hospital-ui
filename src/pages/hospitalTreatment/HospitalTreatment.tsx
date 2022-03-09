@@ -1,17 +1,19 @@
 import { Add } from "@mui/icons-material";
 import {
-  List,
-  ListItem,
-  Typography,
+  Box,
   Divider,
   Grid,
-  Box,
   IconButton,
+  List,
+  ListItem,
+  Paper,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
 import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
 import Monitoring from "./Monitoring";
@@ -41,40 +43,43 @@ export default function HospitalTreatment() {
 
   return (
     <div>
-      <PageHeader title="Hospital Treatment" subtitle={treatmentId as string} />
+      <PageHeader title="Hospital Treatment" subtitle={treatmentId as string} iconType="hospital-treatment" />
       <Monitoring />
 
-      <Grid container sx={{ paddingTop: 2, paddingRight: 2, paddingLeft: 2 }}>
-        <Grid item xs>
-          <Typography variant="h5">Therapies</Typography>
-        </Grid>
-        <Grid item xs>
-          <Grid container direction="row" justifyContent="flex-end">
-            <Tooltip title="Determine new therapy">
-              <IconButton
-                color="primary"
-                aria-label="upload picture"
-                component="span"
-              >
-                <Add />
-              </IconButton>
-            </Tooltip>
+      <Paper variant="outlined" sx={{ margin: 2 }}>
+        <Grid container sx={{ paddingTop: 1, paddingBottom: 1, paddingLeft: 2, paddingRight: 2}} direction="row" alignItems="center">
+          <Grid item xs>
+            <Typography variant="subtitle1">Therapies</Typography>
+          </Grid>
+          <Grid item xs>
+            <Grid container direction="row" justifyContent="flex-end">
+              <Tooltip title="Add new therapy">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <Add />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-
-      <List>
-        {therapies.map((therapy, index) => (
-          <ListItem
-            button
-            key={index}
-            component={Link}
-            to={`therapies/${therapy.id}`}
-          >
-            <TherapyItem {...therapy} />
-          </ListItem>
-        ))}
-      </List>
+        <Divider />
+        <List>
+          {therapies.map((therapy, index) => (
+            <ListItem
+              button
+              key={index}
+              component={Link}
+              to={`therapies/${therapy.id}`}
+            >
+              <TherapyItem {...therapy} />
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
+      <Box sx={{ padding: 0.1 }} />
     </div>
   );
 }
