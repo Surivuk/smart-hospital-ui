@@ -20,8 +20,8 @@ function EventRow({
   type: string;
 }) {
   const text = React.useMemo(() => {
-    if (type === "hospital_treatment") return "Hospital Treatment";
-    if (type === "therapy") return "Prescribed Therapy";
+    if (type === "hospital-treatments") return "Hospital Treatment";
+    if (type === "therapies") return "Prescribed Therapy";
     return "Examination Performed";
   }, [type]);
 

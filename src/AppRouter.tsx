@@ -4,6 +4,7 @@ import App from "./App";
 import Home from "./pages/home/Home";
 import HospitalTreatment from "./pages/hospitalTreatment/HospitalTreatment";
 import MedicalCard from "./pages/medicalCard/MedicalCard";
+import Therapy from "./pages/therapy/Therapy";
 
 export default function AppRouter() {
   return (
@@ -13,7 +14,7 @@ export default function AppRouter() {
           <Route path="home" element={<Home />} />
           <Route path="medical-card/:id" element={<MedicalCard />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId" element={<HospitalTreatment />} />
-          {/* <Route path="invoices" element={<Invoices />} /> */}
+          <Route path="medical-card/:id/hospital-treatments/:treatmentId/therapies/:therapyId" element={<Therapy />} />
         </Route>
       </Routes>
     </div>

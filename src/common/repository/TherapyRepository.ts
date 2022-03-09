@@ -4,14 +4,14 @@ import NetworkController from "../NetworkController";
 export type Therapy = {
     id: string
     label: string
-    medicaments: {
-        medicamentId: string
-        strength: 1000,
-        amount: 2,
-        route: string
-        frequency: string
-    }[]
-
+    medicaments: Medicament[]
+}
+export type Medicament = {
+    medicamentId: string
+    strength: number
+    amount: number
+    route: string
+    frequency: string
 }
 
 export default class PatientRepository extends Api {

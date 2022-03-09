@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
 import Monitoring from "./Monitoring";
 import { TherapyItem } from "./TherapyItem";
@@ -40,24 +41,7 @@ export default function HospitalTreatment() {
 
   return (
     <div>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        sx={{ padding: 2 }}
-      >
-        <Box>
-          <Typography variant="h5">Hospital Treatment</Typography>
-        </Box>
-        <Box sx={{ width: 10 }} />
-        <Box>
-          <Typography variant="caption" color="gray">
-            ({treatmentId})
-          </Typography>
-        </Box>
-      </Grid>
-      <Divider />
+      <PageHeader title="Hospital Treatment" subtitle={treatmentId as string} />
       <Monitoring />
 
       <Grid container sx={{ paddingTop: 2, paddingRight: 2, paddingLeft: 2 }}>
@@ -81,7 +65,12 @@ export default function HospitalTreatment() {
 
       <List>
         {therapies.map((therapy, index) => (
-          <ListItem button key={index}>
+          <ListItem
+            button
+            key={index}
+            component={Link}
+            to={`therapies/${therapy.id}`}
+          >
             <TherapyItem {...therapy} />
           </ListItem>
         ))}
