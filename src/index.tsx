@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -8,11 +9,13 @@ import { store } from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </React.StrictMode>
+    <SnackbarProvider maxSnack={10} preventDuplicate={false}>
+      <React.StrictMode>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </React.StrictMode>
+    </SnackbarProvider>
   </Provider>,
   document.getElementById("root")
 );

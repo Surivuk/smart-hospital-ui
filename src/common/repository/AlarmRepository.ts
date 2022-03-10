@@ -4,6 +4,7 @@ import NetworkController from "../NetworkController";
 export type Alarm = {
     id: string,
     hospitalTreatment: string
+    medicalCard: string
     name: string
     trigger: {
         key: string

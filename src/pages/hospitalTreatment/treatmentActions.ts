@@ -21,7 +21,6 @@ export const openHospitalTreatment = (id: string): AppThunk => async (dispatch, 
 }
 export const closeHospitalTreatment = (id: string): AppThunk => async (dispatch, getState, { socket }) => {
     try {
-        console.log("OVDE NISAM", id)
         socket.off(`hospital-treatment/${id}/data`)
     } catch (error) {
         console.log(error.message)

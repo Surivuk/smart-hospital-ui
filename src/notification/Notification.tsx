@@ -1,32 +1,31 @@
-import { Snackbar } from "@mui/material";
+import { useSnackbar } from "notistack";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export default function Notification() {
-  const [open, setOpen] = React.useState(false);
+import { dependency } from "../store";
 
-  const dispatch = useDispatch();
+let first = true;
+
+export const Notification = React.memo(() => {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
-    return () => {};
-  }, [dispatch]);
+    if (first) {
+      first = false;
+    } else {
+      dependency.socket.off("alarms");
+    }
+    dependency.socket.on("alarms", (data) => {
+      data = JSON.parse(data);
+      enqueueSnackbar(data.message, {
+        anchorOrigin: { horizontal: "right", vertical: "top" },
+        variant: "error",
+        autoHideDuration: 3000,
+        onClick: () => navigate(data.link),
+      });
+    });
+  }, [enqueueSnackbar, navigate]);
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-    setOpen(false);
-  };
-  return (
-    <div>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Note archived"
-        // action={action}
-      />
-    </div>
-  );
-}
+  return null;
+});

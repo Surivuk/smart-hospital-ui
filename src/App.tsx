@@ -3,6 +3,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import AppBreadcrumbs from "./components/AppBreadcrumbs";
 import AppNavigation from "./components/AppNavigation";
+import { Notification } from "./notification/Notification";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           </Paper>
         </Grid>
       </Grid>
+      <Notification />
     </Container>
   );
 }

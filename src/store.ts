@@ -9,6 +9,9 @@ import AlarmsReducer from "./pages/alarms/alarmsSlice"
 import NewAlarmReducer from "./pages/alarm/new/newAlarmSlice"
 import ViewAlarmReducer from "./pages/alarm/view/viewAlarmSlice"
 
+const container = new DependencyContainer()
+export const dependency = container.dependency
+
 export const store = configureStore({
     reducer: {
         patients: PatientsReducer,
@@ -23,7 +26,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             thunk: {
-                extraArgument: { ...new DependencyContainer().dependency }
+                extraArgument: { ...dependency }
             }
         })
 })
