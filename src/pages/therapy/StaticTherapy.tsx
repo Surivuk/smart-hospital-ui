@@ -51,7 +51,7 @@ export default function StaticTherapy() {
         <Box sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}>
           <Typography variant="subtitle1">Medicaments</Typography>
         </Box>
-        <Box sx={{ paddingButton: 2, paddingLeft: 2, paddingRight: 2 }}>
+        <Box sx={{ padding: 2 }}>
           <MedicamentsTable medicaments={medicaments} />
         </Box>
       </Paper>

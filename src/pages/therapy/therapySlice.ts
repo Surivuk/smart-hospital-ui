@@ -5,12 +5,16 @@ interface TherapyState {
     local: boolean
     label: string
     medicaments: Medicament[]
+    prescribed: boolean
+    determined: boolean
 }
 
 const initialState: TherapyState = {
     local: false,
     label: "",
-    medicaments: []
+    medicaments: [],
+    prescribed: false,
+    determined: false
 }
 
 export const TherapySlice = createSlice({
@@ -19,10 +23,19 @@ export const TherapySlice = createSlice({
     reducers: {
         therapyDataFetched: (state, { payload }) => {
             const { id, ...newState } = payload
-            return newState;
+            return { ...newState, local: state.local };
+        },
+        therapyPrescribed: (state) => {
+            state.prescribed = true
+        },
+        therapyDetermined: (state) => {
+            state.determined = true
         },
         changedToLocal: (state) => {
             state.local = true
+        },
+        labelChanged: (state, { payload }) => {
+            state.label = payload
         },
         medicamentRemoved: (state, { payload }) => {
             state.medicaments = state.medicaments.filter(m => m.medicamentId !== payload)
@@ -36,5 +49,14 @@ export const TherapySlice = createSlice({
     }
 })
 
-export const { stateRestarted, therapyDataFetched, medicamentRemoved, medicamentAdded, changedToLocal } = TherapySlice.actions
+export const {
+    stateRestarted,
+    therapyDataFetched,
+    medicamentRemoved,
+    medicamentAdded,
+    changedToLocal,
+    therapyPrescribed,
+    labelChanged,
+    therapyDetermined
+} = TherapySlice.actions
 export default TherapySlice.reducer

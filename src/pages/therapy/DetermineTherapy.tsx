@@ -2,31 +2,34 @@ import { Add } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Divider,
   Grid,
   IconButton,
   Paper,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MedicamentsTable from "../../components/MedicamentsTable";
 import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
 import NewMedicament from "../medicament/NewMedicament";
-import { addMedicament, prescribeTherapy } from "./therapyActions";
-import { changedToLocal, stateRestarted } from "./therapySlice";
-import { stateRestarted as medicamentClear } from "./../medicament/medicamentSlice";
-import { PrescribedTherapy } from "./PrescribedTherapy";
+import { addMedicament, determineTherapy, prescribeTherapy } from "./therapyActions";
+import { changedToLocal, labelChanged, stateRestarted } from "./therapySlice";
+import { stateRestarted as medicamentClear } from "../medicament/medicamentSlice";
+import { DeterminedTherapy } from "./DeterminedTherapy";
 
-export default function PrescribeTherapy() {
-  const { id } = useParams();
+export default function DetermineTherapy() {
+  const { treatmentId } = useParams();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
+  const label = useAppSelector((state) => state.therapy.label);
   const medicaments = useAppSelector((state) => state.therapy.medicaments);
-  const prescribed = useAppSelector((state) => state.therapy.prescribed);
+  const determined = useAppSelector((state) => state.therapy.determined);
 
   const handleClose = () => {
     setOpen(false);
@@ -38,6 +41,10 @@ export default function PrescribeTherapy() {
     handleClose();
   };
 
+  const onChange = (event: any) => {
+    dispatch(labelChanged(event.target.value));
+  };
+
   React.useEffect(() => {
     dispatch(changedToLocal());
     return () => {
@@ -45,17 +52,26 @@ export default function PrescribeTherapy() {
     };
   }, [dispatch]);
 
-  if (prescribed === true) return <PrescribedTherapy />;
+  if (determined === true) return <DeterminedTherapy />;
 
   return (
     <div>
       <PageHeader
-        title="Prescribe Therapy"
+        title="Determine Therapy"
         subtitle="new therapy"
-        iconType="medical-card-therapy"
+        iconType="therapy"
       />
 
       <Paper variant="outlined" sx={{ margin: 2 }}>
+        <Box sx={{ padding: 2 }}>
+          <TextField
+            label="Label"
+            value={label}
+            onChange={onChange}
+            fullWidth
+          />
+        </Box>
+        <Divider />
         <Box sx={{ padding: 2 }}>
           <Grid container direction="row" alignItems="center">
             <Grid item xs>
@@ -88,8 +104,11 @@ export default function PrescribeTherapy() {
         justifyContent="flex-end"
         sx={{ paddingRight: 2, paddingBottom: 2 }}
       >
-        <Button disabled={medicaments.length === 0} onClick={() => dispatch(prescribeTherapy(id as string))}>
-          Prescribe
+        <Button
+          disabled={medicaments.length === 0}
+          onClick={() => dispatch(determineTherapy(treatmentId as string))}
+        >
+          Determine
         </Button>
       </Grid>
     </div>

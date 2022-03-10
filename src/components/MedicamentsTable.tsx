@@ -5,20 +5,23 @@ import { IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import AreYouSureDialog from "./AreYouSureDialog";
 import { useDispatch } from "react-redux";
-import { removeMedicament } from "../pages/therapy/therapyActions";
+import { removeMedicament, removeMedicamentLocally } from "../pages/therapy/therapyActions";
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "../hooks";
 
 function DeleteMedication({ medicamentId }: { medicamentId: string }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const { therapyId, treatmentId } = useParams();
+  const local = useAppSelector((state) => state.therapy.local);
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const yesAction = () => {
-    dispatch(removeMedicament(therapyId as string, medicamentId));
+    if (local === true) dispatch(removeMedicamentLocally(medicamentId));
+    else dispatch(removeMedicament(therapyId as string, medicamentId));
     handleClose();
   };
 
@@ -27,7 +30,7 @@ function DeleteMedication({ medicamentId }: { medicamentId: string }) {
       <Tooltip title="Remove medicament from treatment">
         <span>
           <IconButton
-            disabled={!treatmentId}
+            disabled={local === true ? false : !treatmentId}
             onClick={() => {
               setOpen(true);
             }}
@@ -53,8 +56,8 @@ const columns: GridColDef[] = [
   { field: "medicamentId", headerName: "Medicament", width: 200 },
   { field: "strength", headerName: "Strength (mg)", width: 120 },
   { field: "amount", headerName: "Amount", width: 80 },
-  { field: "route", headerName: "Route", width: 180 },
-  { field: "frequency", headerName: "Frequency", width: 120 },
+  { field: "route", headerName: "Route", width: 140 },
+  { field: "frequency", headerName: "Frequency", width: 150 },
   {
     field: "action",
     headerName: "Actions",

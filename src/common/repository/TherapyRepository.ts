@@ -46,6 +46,27 @@ export default class PatientRepository extends Api {
             data: { medicamentId }
         })
     }
+    async prescribeTherapy(medicalCard: string, medicaments: Medicament[]) {
+        await this._nwc.request<any>({
+            url: this.url(`/therapies/prescribe`),
+            method: "POST",
+            data: { medicalCardId: medicalCard, medicaments }
+        })
+    }
+    async determineTherapy(hospitalTreatmentId: string, label: string, medicaments: Medicament[]) {
+        await this._nwc.request<any>({
+            url: this.url(`/therapies/determine`),
+            method: "POST",
+            data: { hospitalTreatmentId, label, medicaments }
+        })
+    }
+    async changeLabel(id: string, label: string) {
+        await this._nwc.request<any>({
+            url: this.url(`/therapies/${id}/change-label`),
+            method: "POST",
+            data: { label }
+        })
+    }
 
     // private map({ id, firstName, lastName, birthYear, gender }: any): Patient {
     //     return {

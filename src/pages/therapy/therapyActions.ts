@@ -1,5 +1,5 @@
 import { AppThunk } from '../../AppThunk';
-import { medicamentAdded, medicamentRemoved, therapyDataFetched } from './therapySlice';
+import { labelChanged, medicamentAdded, medicamentRemoved, therapyDataFetched, therapyDetermined, therapyPrescribed } from './therapySlice';
 
 export type MedicamentView = {
     medicamentId: string;
@@ -19,11 +19,16 @@ export const fetchTherapyData = (id: string): AppThunk => async (dispatch, getSt
 }
 export const removeMedicament = (id: string, medicament: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
     try {
-        const { local } = getState().therapy
         if (id === undefined) throw new Error("Provided therapy id is undefined")
         if (medicament === undefined) throw new Error("Provided medicament id is undefined")
-        if (local === false)
-            await therapyRepository.removeMedicament(id, medicament)
+        await therapyRepository.removeMedicament(id, medicament)
+        dispatch(medicamentRemoved(medicament))
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const removeMedicamentLocally = (medicament: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+    try {
         dispatch(medicamentRemoved(medicament))
     } catch (error) {
         console.log(error.message)
@@ -40,6 +45,35 @@ export const addMedicament = (): AppThunk => async (dispatch, getState) => {
             strength: parseInt(medicament.strength),
             amount: parseInt(medicament.amount)
         }))
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const prescribeTherapy = (id: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided medical card id is undefined")
+        const { medicaments } = getState().therapy
+        await therapyRepository.prescribeTherapy(id, medicaments)
+        dispatch(therapyPrescribed())
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const determineTherapy = (id: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided hospital treatment id is undefined")
+        const { medicaments, label } = getState().therapy
+        await therapyRepository.determineTherapy(id, label, medicaments)
+        dispatch(therapyDetermined())
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const changeTherapyLabel = (id: string, newLabel: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided therapy id is undefined")
+        await therapyRepository.changeLabel(id, newLabel)
+        dispatch(labelChanged(newLabel))
     } catch (error) {
         console.log(error.message)
     }

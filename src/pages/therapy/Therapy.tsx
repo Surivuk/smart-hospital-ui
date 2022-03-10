@@ -10,18 +10,40 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import MedicamentsTable from "../../components/MedicamentsTable";
 import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
-import { fetchTherapyData } from "./therapyActions";
+import ChangeLabelDialog from "./ChangeLabelDialog";
+import { changeTherapyLabel, fetchTherapyData } from "./therapyActions";
 import { stateRestarted } from "./therapySlice";
 
 function ChangeLabelButton() {
+  const [open, setOpen] = React.useState(false);
+  const { therapyId } = useParams();
+  const dispatch = useDispatch();
+  const label = useAppSelector((state) => state.therapy.label);
+
+  const handleSubmit = (label: string) => {
+    dispatch(changeTherapyLabel(therapyId as string, label));
+    handleClose();
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <IconButton>
-      <Settings />
-    </IconButton>
+    <div>
+      <IconButton onClick={() => setOpen(true)}>
+        <Settings />
+      </IconButton>
+      <ChangeLabelDialog
+        open={open}
+        onSubmit={handleSubmit}
+        onClose={handleClose}
+        label={label}
+      />
+    </div>
   );
 }
 
@@ -80,7 +102,7 @@ export default function Therapy() {
           </Grid>
         </Box>
         <Divider />
-        <Box sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}>
+        <Box sx={{ padding: 2 }}>
           <Grid container direction="row" alignItems="center">
             <Grid item xs>
               <Typography variant="subtitle1">Medicaments</Typography>
@@ -96,7 +118,7 @@ export default function Therapy() {
             </Grid>
           </Grid>
         </Box>
-        <Box sx={{ paddingButton: 2, paddingLeft: 2, paddingRight: 2 }}>
+        <Box sx={{ paddingBottom: 2, paddingLeft: 2, paddingRight: 2 }}>
           <MedicamentsTable medicaments={medicaments} />
         </Box>
       </Paper>

@@ -80,9 +80,8 @@ export default function HospitalTreatment() {
             <Grid container direction="row" justifyContent="flex-end">
               <Tooltip title="Add new therapy">
                 <IconButton
-                  color="primary"
-                  aria-label="upload picture"
-                  component="span"
+                  component={Link}
+                  to="determine-therapy"
                 >
                   <Add />
                 </IconButton>
