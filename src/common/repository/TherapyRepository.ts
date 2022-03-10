@@ -67,6 +67,13 @@ export default class PatientRepository extends Api {
             data: { label }
         })
     }
+    async medicamentsUntil(id: string, date: string) {
+        const result = await this._nwc.request<any>({
+            url: this.url(`/therapies/until?treatmentId=${id}&date=${date}`),
+            method: "GET",
+        })
+        return result.data
+    }
 
     // private map({ id, firstName, lastName, birthYear, gender }: any): Patient {
     //     return {

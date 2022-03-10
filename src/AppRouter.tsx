@@ -12,6 +12,7 @@ import StaticTherapy from "./pages/therapy/StaticTherapy";
 import Therapy from "./pages/therapy/Therapy";
 import NewAlarm from "./pages/alarm/new/NewAlarm";
 import ViewAlarm from "./pages/alarm/view/ViewAlarm";
+import HealthData from "./pages/healthData/HealthData";
 
 export default function AppRouter() {
   return (
@@ -32,6 +33,7 @@ export default function AppRouter() {
           <Route path="alarms/:alarmId" element={<ViewAlarm />} />
           <Route path="alarms/new-alarm" element={<NewAlarm />} />
         </Route>
+        <Route path="health-data" element={<HealthData />} />
       </Routes>
     </div>
   );

@@ -12,7 +12,7 @@ ReactDOM.render(
     <SnackbarProvider maxSnack={10} preventDuplicate={false}>
       <React.StrictMode>
         <BrowserRouter>
-          <AppRouter />
+            <AppRouter />
         </BrowserRouter>
       </React.StrictMode>
     </SnackbarProvider>

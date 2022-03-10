@@ -8,6 +8,7 @@ import MedicamentReducer from "./pages/medicament/medicamentSlice"
 import AlarmsReducer from "./pages/alarms/alarmsSlice"
 import NewAlarmReducer from "./pages/alarm/new/newAlarmSlice"
 import ViewAlarmReducer from "./pages/alarm/view/viewAlarmSlice"
+import HealthDataReducer from "./pages/healthData/healthDataSlice"
 
 const container = new DependencyContainer()
 export const dependency = container.dependency
@@ -21,7 +22,8 @@ export const store = configureStore({
         medicament: MedicamentReducer,
         alarms: AlarmsReducer,
         newAlarm: NewAlarmReducer,
-        viewAlarm: ViewAlarmReducer
+        viewAlarm: ViewAlarmReducer,
+        healthData: HealthDataReducer
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

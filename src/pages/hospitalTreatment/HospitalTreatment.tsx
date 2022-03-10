@@ -56,7 +56,7 @@ export default function HospitalTreatment() {
         justifyContent="center"
         sx={{ marginTop: -2, padding: 0 }}
       >
-        <Typography variant="overline" align="center" component={Link} to={`/app/health-data?treatment=${treatmentId}&medicalCardId=${id}`}>
+        <Typography variant="overline" align="center" component={Link} to={`/health-data?treatment=${treatmentId}&medicalCardId=${id}`}>
           View health data history
         </Typography>
       </Grid>
