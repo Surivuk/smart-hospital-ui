@@ -4,12 +4,14 @@ import MedicalCardRepository from "./repository/MedicalCardRepository"
 import PatientRepository from "./repository/PatientRepository"
 import TherapyRepository from "./repository/TherapyRepository"
 import { io, Socket } from "socket.io-client";
+import AlarmRepository from "./repository/AlarmRepository"
 
 export type Dependency = {
     patientRepository: PatientRepository
     medicalCardRepository: MedicalCardRepository
     hospitalTreatmentRepository: HospitalTreatmentRepository,
     therapyRepository: TherapyRepository
+    alarmsRepository: AlarmRepository,
     socket: Socket
 }
 
@@ -30,6 +32,7 @@ export default class DependencyContainer {
             medicalCardRepository: new MedicalCardRepository(this._nwc),
             hospitalTreatmentRepository: new HospitalTreatmentRepository(this._nwc),
             therapyRepository: new TherapyRepository(this._nwc),
+            alarmsRepository: new AlarmRepository(this._nwc),
             socket: socket
         }
     }

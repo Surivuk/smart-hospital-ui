@@ -1,18 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit'
 import DependencyContainer from './common/DependencyContainer'
-import HomeReducer from "./pages/home/homeSlice"
+import PatientsReducer from "./pages/patients/patientsSlice"
 import MedicalCardReducer from "./pages/medicalCard/medicalCardSlice"
 import HospitalTreatmentReducer from "./pages/hospitalTreatment/treatmentSlice"
 import TherapyReducer from "./pages/therapy/therapySlice"
 import MedicamentReducer from "./pages/medicament/medicamentSlice"
+import AlarmsReducer from "./pages/alarms/alarmsSlice"
 
 export const store = configureStore({
     reducer: {
-        home: HomeReducer,
+        patients: PatientsReducer,
         medicalCard: MedicalCardReducer,
         hospitalTreatment: HospitalTreatmentReducer,
         therapy: TherapyReducer,
-        medicament: MedicamentReducer
+        medicament: MedicamentReducer,
+        alarms: AlarmsReducer
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

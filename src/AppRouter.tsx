@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import App from "./App";
-import Home from "./pages/home/Home";
+import Alarms from "./pages/alarms/Alarms";
+import Patients from "./pages/patients/Patients";
 import HospitalTreatment from "./pages/hospitalTreatment/HospitalTreatment";
 import MedicalCard from "./pages/medicalCard/MedicalCard";
 import AddMedicament from "./pages/medicament/AddMedicament";
@@ -15,7 +16,7 @@ export default function AppRouter() {
     <div>
       <Routes>
         <Route path="/app" element={<App />}>
-          <Route path="home" element={<Home />} />
+          <Route path="patients" element={<Patients />} />
           <Route path="medical-card/:id" element={<MedicalCard />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId" element={<HospitalTreatment />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId/determine-therapy" element={<DetermineTherapy />} />
@@ -24,6 +25,8 @@ export default function AppRouter() {
 
           <Route path="medical-card/:id/therapies/:therapyId" element={<StaticTherapy />} />
           <Route path="medical-card/:id/prescribe-therapy" element={<PrescribeTherapy />} />
+
+          <Route path="alarms" element={<Alarms />} />
         </Route>
       </Routes>
     </div>

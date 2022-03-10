@@ -16,14 +16,14 @@ import { Link } from "react-router-dom";
 import PatientView from "../../components/PatientView";
 import { useAppSelector } from "../../hooks";
 
-import { fetchPatients } from "./homeActions";
+import { fetchPatients } from "./patientsActions";
 
-function HomeHeader() {
+function PatientsHeader() {
   return (
     <Grid container direction="row" alignItems="center">
       <Grid item xs>
         <Typography textAlign="left" variant="h4" sx={{ padding: 2 }}>
-          Active Cases
+          Patients
         </Typography>
       </Grid>
       <Grid item xs>
@@ -32,7 +32,7 @@ function HomeHeader() {
           justifyContent="flex-end"
           sx={(theme) => ({ paddingRight: theme.spacing(2) })}
         >
-          <Tooltip title="Add new case">
+          <Tooltip title="Add new patient">
             <IconButton
               color="primary"
               aria-label="upload picture"
@@ -47,9 +47,9 @@ function HomeHeader() {
   );
 }
 
-export default function Home() {
+export default function Patients() {
   const dispatch = useDispatch();
-  const patients = useAppSelector((state) => state.home.patients);
+  const patients = useAppSelector((state) => state.patients.patients);
 
   React.useEffect(() => {
     dispatch(fetchPatients());
@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <div>
       <div>
-        <HomeHeader />
+        <PatientsHeader />
         <Box sx={{ padding: 2 }}>
           <TextField
             id="input-with-icon-textfield"

@@ -9,8 +9,8 @@ const initialState: HomeState = {
     patients: []
 }
 
-export const homeSlice = createSlice({
-    name: 'home',
+export const patientsSlice = createSlice({
+    name: 'patients',
     initialState,
     reducers: {
         patientsFetched: (state, { payload }) => {
@@ -19,5 +19,5 @@ export const homeSlice = createSlice({
     }
 })
 
-export const { patientsFetched } = homeSlice.actions
-export default homeSlice.reducer
+export const { patientsFetched } = patientsSlice.actions
+export default patientsSlice.reducer

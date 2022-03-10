@@ -1,5 +1,5 @@
 import { AppThunk } from '../../AppThunk';
-import { patientsFetched } from './homeSlice';
+import { patientsFetched } from './patientsSlice';
 
 export const fetchPatients = (): AppThunk => async (dispatch, getState, { patientRepository }) => {
     try {

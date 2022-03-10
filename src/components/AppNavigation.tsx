@@ -4,7 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { ProfileInfo } from "./ProfileInfo";
 
 const pages = [
-  { name: "Home", url: "/app/home" }
+  { name: "Patients", url: "/app/patients" },
+  { name: "Alarms", url: "/app/alarms" }
 ];
 
 export default function AppNavigation() {
