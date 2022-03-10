@@ -15,11 +15,54 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { Alarm } from "../../common/repository/AlarmRepository";
+import AreYouSureDialog from "../../components/AreYouSureDialog";
 import { useAppSelector } from "../../hooks";
-import { fetchAlarms } from "./alarmsActions";
+import {
+  activateAlarm,
+  deactivateAlarm,
+  deleteAlarm,
+  fetchAlarms,
+} from "./alarmsActions";
+
+function DeleteButton({ alarmId }: { alarmId: string }) {
+  const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    dispatch(deleteAlarm(alarmId));
+    handleClose();
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <IconButton onClick={() => setOpen(true)}>
+        <Delete />
+      </IconButton>
+      <AreYouSureDialog
+        open={open}
+        title="Delete alarm?"
+        text="Are you sure that you want to delete alarm?"
+        yesLabel="Delete"
+        noLabel="Cancel"
+        yesAction={handleSubmit}
+        handleClose={handleClose}
+      />
+    </div>
+  );
+}
 
 function AlarmItem({ alarm }: { alarm: Alarm }) {
+  const dispatch = useDispatch();
+
+  const toggle = (active: boolean, id: string) => {
+    if (active) dispatch(deactivateAlarm(id));
+    else dispatch(activateAlarm(id));
+  };
+
   return (
     <Grid
       container
@@ -30,12 +73,22 @@ function AlarmItem({ alarm }: { alarm: Alarm }) {
       <Grid item xs>
         <Grid container alignItems="center" justifyContent="flex-start">
           <ListItemAvatar sx={{ marginRight: 1 }}>
-            <IconButton>
-              <Avatar src="/images/notification-bell.png" />
+            <IconButton onClick={() => toggle(alarm.active, alarm.id)}>
+              <Avatar
+                src={
+                  alarm.active
+                    ? "/images/notification-bell.png"
+                    : "/images/notification-bell-inactive.png"
+                }
+              />
             </IconButton>
           </ListItemAvatar>
           <ListItemText
-            primary={`${alarm.trigger.key} ${alarm.trigger.operator} ${alarm.trigger.value}`}
+            primary={
+              <Typography component={Link} to={`${alarm.id}`}>
+                {`${alarm.name} (${alarm.trigger.key} ${alarm.trigger.operator} ${alarm.trigger.value})`}
+              </Typography>
+            }
             secondary={
               <React.Fragment>
                 <Typography
@@ -52,9 +105,7 @@ function AlarmItem({ alarm }: { alarm: Alarm }) {
       </Grid>
       <Grid item xs>
         <Grid container justifyContent="flex-end">
-          <IconButton>
-            <Delete />
-          </IconButton>
+          <DeleteButton alarmId={alarm.id} />
         </Grid>
       </Grid>
     </Grid>
@@ -79,7 +130,7 @@ export default function Alarms() {
         <Grid item xs>
           <Grid container direction="row" justifyContent="flex-end">
             <Tooltip title="Add new alarm">
-              <IconButton color="primary">
+              <IconButton color="primary" component={Link} to="new-alarm">
                 <Add />
               </IconButton>
             </Tooltip>
@@ -91,7 +142,9 @@ export default function Alarms() {
         sx={{ marginLeft: 2, marginRight: 2, marginBottom: 2 }}
       >
         {alarms.length === 0 && (
-          <Typography textAlign="center">No alarms</Typography>
+          <Typography textAlign="center" sx={{ paddingTop: 2 }}>
+            No alarms
+          </Typography>
         )}
         <List>
           {alarms.map((alarm, index) => (

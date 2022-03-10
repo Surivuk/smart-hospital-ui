@@ -28,6 +28,7 @@ export default function PageHeader({
     if (iconType === "hospital-treatment")
       return "/images/hospital-treatments.png";
     if (iconType === "examination") return "/images/examinations.png";
+    if (iconType === "alarm") return "/images/ambulance-lights.png";
     return undefined;
   }, [iconType]);
   return (
@@ -45,6 +46,7 @@ export default function PageHeader({
               {icon && (
                 <Avatar
                   src={icon}
+                  variant="square"
                   sx={{ paddingRight: 2, height: 54, width: 54 }}
                 />
               )}

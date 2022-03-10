@@ -14,6 +14,7 @@ export interface PickerProps {
   onChange(event: SelectChangeEvent): void;
   selectedValue: string;
   required?: boolean;
+  notFullWidth?: boolean
 }
 
 export function Picker(props: PickerProps) {
@@ -21,7 +22,7 @@ export function Picker(props: PickerProps) {
   const required = props.required ? true : false
 
   return (
-    <FormControl fullWidth sx={{ marginTop: 1, marginBottom: 1 }}>
+    <FormControl fullWidth={!props.notFullWidth} sx={{ marginTop: 1, marginBottom: 1 }}>
       <InputLabel required={required} id={`${label.toLowerCase()}-picker-label`}>
         {label}
       </InputLabel>

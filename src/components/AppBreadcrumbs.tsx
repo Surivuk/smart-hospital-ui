@@ -22,14 +22,17 @@ export default function AppBreadcrumbs() {
   const location = useLocation();
 
   React.useEffect(() => {
-    if(!location.pathname.startsWith("/app/medical-card")) return
+    if (!location.pathname.startsWith("/app/medical-card")) {
+      setShowBreadcrumbs(false);
+      return;
+    }
     setShowBreadcrumbs(
       location.pathname.split("/medical-card")[1].split("/").length > 2
     );
   }, [location, setShowBreadcrumbs]);
 
   React.useEffect(() => {
-    if(!location.pathname.startsWith("/app/medical-card")) return
+    if (!location.pathname.startsWith("/app/medical-card")) return;
     const map: { [key: string]: string[] } = {};
     const parts = location.pathname
       .split("/")

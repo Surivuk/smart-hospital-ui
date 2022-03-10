@@ -6,6 +6,8 @@ import HospitalTreatmentReducer from "./pages/hospitalTreatment/treatmentSlice"
 import TherapyReducer from "./pages/therapy/therapySlice"
 import MedicamentReducer from "./pages/medicament/medicamentSlice"
 import AlarmsReducer from "./pages/alarms/alarmsSlice"
+import NewAlarmReducer from "./pages/alarm/new/newAlarmSlice"
+import ViewAlarmReducer from "./pages/alarm/view/viewAlarmSlice"
 
 export const store = configureStore({
     reducer: {
@@ -14,7 +16,9 @@ export const store = configureStore({
         hospitalTreatment: HospitalTreatmentReducer,
         therapy: TherapyReducer,
         medicament: MedicamentReducer,
-        alarms: AlarmsReducer
+        alarms: AlarmsReducer,
+        newAlarm: NewAlarmReducer,
+        viewAlarm: ViewAlarmReducer
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

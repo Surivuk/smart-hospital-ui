@@ -10,6 +10,8 @@ import DetermineTherapy from "./pages/therapy/DetermineTherapy";
 import PrescribeTherapy from "./pages/therapy/PrescribeTherapy";
 import StaticTherapy from "./pages/therapy/StaticTherapy";
 import Therapy from "./pages/therapy/Therapy";
+import NewAlarm from "./pages/alarm/new/NewAlarm";
+import ViewAlarm from "./pages/alarm/view/ViewAlarm";
 
 export default function AppRouter() {
   return (
@@ -27,6 +29,8 @@ export default function AppRouter() {
           <Route path="medical-card/:id/prescribe-therapy" element={<PrescribeTherapy />} />
 
           <Route path="alarms" element={<Alarms />} />
+          <Route path="alarms/:alarmId" element={<ViewAlarm />} />
+          <Route path="alarms/new-alarm" element={<NewAlarm />} />
         </Route>
       </Routes>
     </div>
