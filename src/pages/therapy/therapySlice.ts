@@ -7,6 +7,7 @@ interface TherapyState {
     medicaments: Medicament[]
     prescribed: boolean
     determined: boolean
+    removed: boolean
 }
 
 const initialState: TherapyState = {
@@ -14,7 +15,8 @@ const initialState: TherapyState = {
     label: "",
     medicaments: [],
     prescribed: false,
-    determined: false
+    determined: false,
+    removed: false
 }
 
 export const TherapySlice = createSlice({
@@ -43,6 +45,9 @@ export const TherapySlice = createSlice({
         medicamentAdded: (state, { payload }) => {
             state.medicaments.push(payload)
         },
+        therapyRemoved: (state) => {
+            state.removed = true
+        },
         stateRestarted: () => {
             return initialState
         }
@@ -57,6 +62,7 @@ export const {
     changedToLocal,
     therapyPrescribed,
     labelChanged,
-    therapyDetermined
+    therapyDetermined,
+    therapyRemoved
 } = TherapySlice.actions
 export default TherapySlice.reducer

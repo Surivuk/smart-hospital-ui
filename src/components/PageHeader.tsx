@@ -10,18 +10,30 @@ import {
   Avatar,
 } from "@mui/material";
 import React from "react";
+import { Action } from "redux";
+import AreYouSureDialog from "./AreYouSureDialog";
 
 export interface PageHeaderProps {
   title: string;
   subtitle: string;
+  actionTitle?: string;
+  action?(): void;
   iconType?: string;
 }
 
-export default function PageHeader({
-  title,
-  subtitle,
-  iconType,
-}: PageHeaderProps) {
+export default function PageHeader(props: PageHeaderProps) {
+  const { title, subtitle, iconType, action, actionTitle } = props;
+  const [open, setOpen] = React.useState(false);
+
+  const handleSubmit = () => {
+    if (action) action();
+    handleClose();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const icon = React.useMemo(() => {
     if (iconType === "therapy") return "/images/drugs.png";
     if (iconType === "medical-card-therapy") return "/images/therapies.png";
@@ -65,17 +77,30 @@ export default function PageHeader({
           </Grid>
         </Grid>
         <Grid item xs>
-          <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-          >
-            <Button color="error">Close treatment</Button>
-          </Grid>
+          {actionTitle && action && (
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Button color="error" onClick={() => setOpen(true)}>{actionTitle}</Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Divider />
+      <AreYouSureDialog
+        title={`${actionTitle
+          ?.substring(0, 1)
+          .toUpperCase()}${actionTitle?.substring(1, actionTitle.length)}?`}
+        text={`Are you sure that you want to ${actionTitle}?`}
+        yesLabel={`${actionTitle?.split(" ")[0]}`}
+        noLabel="Cancel"
+        yesAction={handleSubmit}
+        handleClose={handleClose}
+        open={open}
+      />
     </div>
   );
 }

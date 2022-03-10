@@ -10,36 +10,48 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { red } from "@mui/material/colors";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
+import ClosedTreatment from "./ClosedTreatment";
 import Monitoring from "./Monitoring";
 import { TherapyItem } from "./TherapyItem";
 import {
   closeHospitalTreatment,
+  closeHospitalTreatmentView,
   fetchHospitalTreatmentData,
-  openHospitalTreatment,
+  openHospitalTreatmentView,
 } from "./treatmentActions";
+import { stateRestarted } from "./treatmentSlice";
 
 export default function HospitalTreatment() {
   const { id, treatmentId } = useParams();
   const dispatch = useDispatch();
-  const therapies = useAppSelector(
-    (state) => state.hospitalTreatment.therapies
+  const { therapies, closed, closedView } = useAppSelector(
+    (state) => state.hospitalTreatment
   );
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(stateRestarted());
+    };
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (treatmentId) {
       dispatch(fetchHospitalTreatmentData(treatmentId));
-      dispatch(openHospitalTreatment(treatmentId));
+      dispatch(openHospitalTreatmentView(treatmentId));
     }
     return () => {
-      dispatch(closeHospitalTreatment(treatmentId as string));
+      dispatch(closeHospitalTreatmentView(treatmentId as string));
     };
   }, [dispatch, treatmentId]);
+
+  if (closedView) return <ClosedTreatment />;
 
   return (
     <div>
@@ -47,7 +59,18 @@ export default function HospitalTreatment() {
         title="Hospital Treatment"
         subtitle={treatmentId as string}
         iconType="hospital-treatment"
+        actionTitle={!closed ? "close treatment" : undefined}
+        action={
+          !closed
+            ? () => dispatch(closeHospitalTreatment(treatmentId as string))
+            : undefined
+        }
       />
+      {closed && (
+        <Typography variant="subtitle1" sx={{ padding: 2, color: red[500] }}>
+          This hospital treatment is closed
+        </Typography>
+      )}
       <Monitoring />
 
       <Grid
@@ -56,7 +79,12 @@ export default function HospitalTreatment() {
         justifyContent="center"
         sx={{ marginTop: -2, padding: 0 }}
       >
-        <Typography variant="overline" align="center" component={Link} to={`/health-data?treatment=${treatmentId}&medicalCardId=${id}`}>
+        <Typography
+          variant="overline"
+          align="center"
+          component={Link}
+          to={`/health-data?treatment=${treatmentId}&medicalCardId=${id}`}
+        >
           View health data history
         </Typography>
       </Grid>
@@ -79,24 +107,33 @@ export default function HospitalTreatment() {
           <Grid item xs>
             <Grid container direction="row" justifyContent="flex-end">
               <Tooltip title="Add new therapy">
-                <IconButton
-                  component={Link}
-                  to="determine-therapy"
-                >
-                  <Add />
-                </IconButton>
+                <span>
+                  <IconButton
+                    disabled={closed}
+                    component={Link}
+                    to="determine-therapy"
+                  >
+                    <Add />
+                  </IconButton>
+                </span>
               </Tooltip>
             </Grid>
           </Grid>
         </Grid>
         <Divider />
         <List>
+          {therapies.length === 0 && (
+            <Typography textAlign="center" sx={{ padding: 2 }}>
+              {" "}
+              No therapies
+            </Typography>
+          )}
           {therapies.map((therapy, index) => (
             <ListItem
               button
               key={index}
               component={Link}
-              to={`therapies/${therapy.id}`}
+              to={`therapies/${therapy.id}${closed ? "?disabled=true" : ""}`}
             >
               <TherapyItem {...therapy} />
             </ListItem>

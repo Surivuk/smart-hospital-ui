@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface TreatmentState {
     therapies: { id: string, label: string, createdAt: string }[],
+    closed: boolean;
     monitoring: {
         SPO2: string
         "systolic-blood-pressure": string
@@ -12,10 +13,12 @@ interface TreatmentState {
         temperature: string
         timestamp: string
     }
+    closedView: boolean
 }
 
 const initialState: TreatmentState = {
     therapies: [],
+    closed: false,
     monitoring: {
         SPO2: "-",
         "systolic-blood-pressure": "-",
@@ -24,7 +27,8 @@ const initialState: TreatmentState = {
         pulse: "-",
         temperature: "-",
         timestamp: "-"
-    }
+    },
+    closedView: false
 }
 
 export const TreatmentCardSlice = createSlice({
@@ -33,11 +37,15 @@ export const TreatmentCardSlice = createSlice({
     reducers: {
         treatmentDataFetched: (state, { payload }) => {
             state.therapies = payload.therapies;
+            state.closed = payload.closed
         },
         monitoringUpdated: (state, { payload }) => {
-            const key: "SPO2" | "PI" | "pulse" | "temperature" | "systolic-blood-pressure" | "diastolic-blood-pressure"  = payload.type
+            const key: "SPO2" | "PI" | "pulse" | "temperature" | "systolic-blood-pressure" | "diastolic-blood-pressure" = payload.type
             state.monitoring[key] = payload.value
             state.monitoring["timestamp"] = new Date(payload.timestamp).toLocaleString()
+        },
+        closedTreatment: (state) => {
+            state.closedView = true
         },
         stateRestarted: () => {
             return initialState
@@ -45,5 +53,5 @@ export const TreatmentCardSlice = createSlice({
     }
 })
 
-export const { treatmentDataFetched, stateRestarted, monitoringUpdated } = TreatmentCardSlice.actions
+export const { treatmentDataFetched, stateRestarted, monitoringUpdated, closedTreatment } = TreatmentCardSlice.actions
 export default TreatmentCardSlice.reducer

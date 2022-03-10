@@ -1,5 +1,5 @@
 import { AppThunk } from '../../AppThunk';
-import { monitoringUpdated, treatmentDataFetched } from './treatmentSlice';
+import { closedTreatment, monitoringUpdated, treatmentDataFetched } from './treatmentSlice';
 
 
 export const fetchHospitalTreatmentData = (id: string): AppThunk => async (dispatch, getState, { hospitalTreatmentRepository }) => {
@@ -10,7 +10,7 @@ export const fetchHospitalTreatmentData = (id: string): AppThunk => async (dispa
         console.log(error.message)
     }
 }
-export const openHospitalTreatment = (id: string): AppThunk => async (dispatch, getState, { socket }) => {
+export const openHospitalTreatmentView = (id: string): AppThunk => async (dispatch, getState, { socket }) => {
     try {
         socket.on(`hospital-treatment/${id}/data`, (data) => {
             dispatch(monitoringUpdated(JSON.parse(data)))
@@ -19,9 +19,18 @@ export const openHospitalTreatment = (id: string): AppThunk => async (dispatch, 
         console.log(error.message)
     }
 }
-export const closeHospitalTreatment = (id: string): AppThunk => async (dispatch, getState, { socket }) => {
+export const closeHospitalTreatmentView = (id: string): AppThunk => async (dispatch, getState, { socket }) => {
     try {
         socket.off(`hospital-treatment/${id}/data`)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const closeHospitalTreatment = (id: string): AppThunk => async (dispatch, getState, { hospitalTreatmentRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided treatment id is undefined.")
+        await hospitalTreatmentRepository.closeHospitalTreatments(id)
+        dispatch(closedTreatment())
     } catch (error) {
         console.log(error.message)
     }

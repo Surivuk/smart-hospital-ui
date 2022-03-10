@@ -10,15 +10,21 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import MedicamentsTable from "../../components/MedicamentsTable";
 import PageHeader from "../../components/PageHeader";
 import { useAppSelector } from "../../hooks";
 import ChangeLabelDialog from "./ChangeLabelDialog";
-import { changeTherapyLabel, fetchTherapyData } from "./therapyActions";
+import RemovedTherapy from "./RemovedTherapy";
+import { changeTherapyLabel, fetchTherapyData, removeTherapy } from "./therapyActions";
 import { stateRestarted } from "./therapySlice";
 
-function ChangeLabelButton() {
+function ChangeLabelButton({ disabled}: {disabled?: boolean}) {
   const [open, setOpen] = React.useState(false);
   const { therapyId } = useParams();
   const dispatch = useDispatch();
@@ -34,7 +40,7 @@ function ChangeLabelButton() {
 
   return (
     <div>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton disabled={disabled} onClick={() => setOpen(true)}>
         <Settings />
       </IconButton>
       <ChangeLabelDialog
@@ -49,12 +55,13 @@ function ChangeLabelButton() {
 
 export default function Therapy() {
   const { therapyId, treatmentId } = useParams();
+  const [params] = useSearchParams();
+  const disabled = React.useMemo(() => {
+    return params.get("disabled") !== null
+  }, [params]);
   const dispatch = useDispatch();
 
-  const { label, medicaments } = useAppSelector((state) => ({
-    label: state.therapy.label,
-    medicaments: state.therapy.medicaments,
-  }));
+  const { label, medicaments, removed } = useAppSelector((state) =>  state.therapy)
 
   React.useEffect(() => {
     return () => {
@@ -66,6 +73,8 @@ export default function Therapy() {
     if (therapyId) dispatch(fetchTherapyData(therapyId));
   }, [dispatch, therapyId]);
 
+  if(removed == true) return <RemovedTherapy />
+
   return (
     <div>
       <PageHeader
@@ -74,6 +83,8 @@ export default function Therapy() {
         iconType={
           treatmentId !== undefined ? "therapy" : "medical-card-therapy"
         }
+        actionTitle={treatmentId !== undefined ? "remove therapy" : undefined}
+        action={treatmentId !== undefined ? () => dispatch(removeTherapy(treatmentId as string, therapyId as string)) : undefined}
       />
 
       <Paper variant="outlined" sx={{ margin: 2 }}>
@@ -96,7 +107,7 @@ export default function Therapy() {
                 alignItems="center"
                 justifyContent="flex-end"
               >
-                <ChangeLabelButton />
+                <ChangeLabelButton disabled={disabled} />
               </Grid>
             </Grid>
           </Grid>
@@ -110,9 +121,15 @@ export default function Therapy() {
             <Grid item xs>
               <Grid container direction="row" justifyContent="flex-end">
                 <Tooltip title="Add new medicament to the therapy">
-                  <IconButton component={Link} to={"add-medicament"}>
-                    <Add />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      disabled={disabled}
+                      component={Link}
+                      to={"add-medicament"}
+                    >
+                      <Add />
+                    </IconButton>
+                  </span>
                 </Tooltip>
               </Grid>
             </Grid>

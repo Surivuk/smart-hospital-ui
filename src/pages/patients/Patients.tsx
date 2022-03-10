@@ -9,6 +9,7 @@ import {
   Grid,
   IconButton,
   Tooltip,
+  Divider,
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -59,21 +60,7 @@ export default function Patients() {
     <div>
       <div>
         <PatientsHeader />
-        <Box sx={{ padding: 2 }}>
-          <TextField
-            id="input-with-icon-textfield"
-            variant="outlined"
-            placeholder="Enter the name of the patient..."
-            fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
+        <Divider />
 
         <List>
           {patients.map((patient, index) => (

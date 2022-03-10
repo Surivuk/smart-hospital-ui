@@ -1,9 +1,10 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
+import { IconButton, Grid, Button, Typography } from "@mui/material";
 import { green, orange, red } from "@mui/material/colors";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import HealthDataFactory from "../../common/healthData/HealthDataFactory";
 import DatePicker from "../../components/DatePicker";
 import { useAppSelector } from "../../hooks";
@@ -89,13 +90,17 @@ const columns: GridColDef[] = [
     field: "action",
     headerName: "Actions",
     renderCell: (params) => <InfoButton timestamp={params.row.timestamp} />,
-    width: 80,
+    width: 150,
   },
 ];
 
 export default function HealthData() {
   const [params] = useSearchParams();
   const treatment = React.useMemo(() => params.get("treatment"), [params]);
+  const medicalCard = React.useMemo(
+    () => params.get("medicalCardId"),
+    [params]
+  );
   const dispatch = useDispatch();
 
   const { healthData, selectedDate } = useAppSelector(
@@ -107,12 +112,31 @@ export default function HealthData() {
   }, [dispatch, treatment]);
 
   const handleChange = (newValue: string) => {
-    dispatch(changeDate(treatment as string, new Date(newValue).toISOString().slice(0, 10)));
+    dispatch(
+      changeDate(
+        treatment as string,
+        new Date(newValue).toISOString().slice(0, 10)
+      )
+    );
   };
 
   return (
     <div>
-      <DatePicker selectedDate={selectedDate} onChange={handleChange} />
+      <Grid container direction="row" alignItems="center">
+        <Grid item xs="auto">
+            <Button
+              component={Link}
+              variant="contained"
+              to={`/app/medical-card/${medicalCard}/hospital-treatments/${treatment}`}
+              startIcon={<ArrowBack />}
+            >
+              Back
+            </Button>
+        </Grid>
+        <Grid item xs>
+          <DatePicker selectedDate={selectedDate} onChange={handleChange} />
+        </Grid>
+      </Grid>
       <div style={{ height: "90vh", width: "100%" }}>
         <DataGrid
           rows={healthData}

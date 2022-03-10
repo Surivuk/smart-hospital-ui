@@ -5,13 +5,21 @@ import { IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import AreYouSureDialog from "./AreYouSureDialog";
 import { useDispatch } from "react-redux";
-import { removeMedicament, removeMedicamentLocally } from "../pages/therapy/therapyActions";
-import { useParams } from "react-router-dom";
+import {
+  removeMedicament,
+  removeMedicamentLocally,
+} from "../pages/therapy/therapyActions";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 
 function DeleteMedication({ medicamentId }: { medicamentId: string }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const [params] = useSearchParams();
+  const disabled = React.useMemo(
+    () => params.get("disabled") !== null,
+    [params]
+  );
   const { therapyId, treatmentId } = useParams();
   const local = useAppSelector((state) => state.therapy.local);
 
@@ -30,7 +38,7 @@ function DeleteMedication({ medicamentId }: { medicamentId: string }) {
       <Tooltip title="Remove medicament from treatment">
         <span>
           <IconButton
-            disabled={local === true ? false : !treatmentId}
+            disabled={disabled || (local === true ? false : !treatmentId)}
             onClick={() => {
               setOpen(true);
             }}

@@ -1,5 +1,5 @@
 import { AppThunk } from '../../AppThunk';
-import { labelChanged, medicamentAdded, medicamentRemoved, therapyDataFetched, therapyDetermined, therapyPrescribed } from './therapySlice';
+import { labelChanged, medicamentAdded, medicamentRemoved, therapyDataFetched, therapyDetermined, therapyPrescribed, therapyRemoved } from './therapySlice';
 
 export type MedicamentView = {
     medicamentId: string;
@@ -74,6 +74,16 @@ export const changeTherapyLabel = (id: string, newLabel: string): AppThunk => as
         if (id === undefined) throw new Error("Provided therapy id is undefined")
         await therapyRepository.changeLabel(id, newLabel)
         dispatch(labelChanged(newLabel))
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const removeTherapy = (id: string, therapy: string): AppThunk => async (dispatch, getState, { hospitalTreatmentRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided hospital treatment id is undefined")
+        if (id === undefined) throw new Error("Provided therapy id is undefined")
+        await hospitalTreatmentRepository.removeTherapy(id, therapy)
+        dispatch(therapyRemoved())
     } catch (error) {
         console.log(error.message)
     }
