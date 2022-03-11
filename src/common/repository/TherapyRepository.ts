@@ -9,6 +9,7 @@ export type Therapy = {
 
 export type Medicament = {
     medicamentId: string
+    name: string;
     strength: number
     amount: number
     route: string
@@ -32,7 +33,13 @@ export default class PatientRepository extends Api {
         })
         return result.data;
     }
-    async addMedicament(therapy: string, medicament: Medicament): Promise<void> {
+    async addMedicament(therapy: string, medicament: {
+        medicamentId: string
+        strength: number
+        amount: number
+        route: string
+        frequency: string
+    }): Promise<void> {
         await this._nwc.request<any>({
             url: this.url(`/therapies/${therapy}/add-medicament`),
             method: "POST",
@@ -70,6 +77,13 @@ export default class PatientRepository extends Api {
     async medicamentsUntil(id: string, date: string) {
         const result = await this._nwc.request<any>({
             url: this.url(`/therapies/until?treatmentId=${id}&date=${date}`),
+            method: "GET",
+        })
+        return result.data
+    }
+    async medicaments(): Promise<Medicament[]> {
+        const result = await this._nwc.request<any>({
+            url: this.url(`/medicaments`),
             method: "GET",
         })
         return result.data

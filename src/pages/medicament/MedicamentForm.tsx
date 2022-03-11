@@ -43,7 +43,7 @@ interface MedicamentFormProps {
 export default function MedicamentForm(props: MedicamentFormProps) {
   const dispatch = useDispatch();
 
-  const { medicamentId, strength, amount, frequency, route } = useAppSelector(
+  const { medicamentId, strength, amount, frequency, route, medicaments } = useAppSelector(
     (state) => ({
       ...state.medicament,
     })
@@ -79,10 +79,7 @@ export default function MedicamentForm(props: MedicamentFormProps) {
       <Picker
         label="Medicament"
         name="medicamentId"
-        options={[
-          { key: "medicament-1", value: "Medicament 1" },
-          { key: "medicament-2", value: "Medicament 2" },
-        ]}
+        options={medicaments}
         required
         selectedValue={medicamentId}
         onChange={handleSelectChange}

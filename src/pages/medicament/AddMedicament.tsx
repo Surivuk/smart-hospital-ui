@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useAppSelector } from "../../hooks";
-import { addMedicament } from "./medicamentActions";
+import { addMedicament, fetchMedicaments } from "./medicamentActions";
 import MedicamentForm from "./MedicamentForm";
 import { medicamentFormInputChanged, stateRestarted } from "./medicamentSlice";
 import { SuccessfullyAdded } from "./SuccessfullyAdded";
@@ -17,6 +17,7 @@ export default function AddMedicament() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    dispatch(fetchMedicaments());
     return () => {
       dispatch(stateRestarted());
     };

@@ -11,6 +11,7 @@ import {
 } from "../pages/therapy/therapyActions";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useAppSelector } from "../hooks";
+import { fetchMedicaments } from "../pages/medicament/medicamentActions";
 
 function DeleteMedication({ medicamentId }: { medicamentId: string }) {
   const [open, setOpen] = React.useState(false);
@@ -83,6 +84,10 @@ export interface MedicamentsTableProps {
 export default function MedicamentsTable({
   medicaments,
 }: MedicamentsTableProps) {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchMedicaments());
+  }, [dispatch]);
   return (
     <div style={{ height: 300, width: "100%" }}>
       <DataGrid

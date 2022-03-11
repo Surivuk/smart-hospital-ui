@@ -1,10 +1,9 @@
 import { AppThunk } from '../../AppThunk';
-import { medicamentAdded } from './medicamentSlice';
+import { medicamentAdded, medicamentsFetched } from './medicamentSlice';
 
-export const fetchMedicaments = (id: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+export const fetchMedicaments = (): AppThunk => async (dispatch, getState, { therapyRepository }) => {
     try {
-        if (id === undefined) throw new Error("Provided therapy id is undefined")
-        // dispatch(therapyDataFetched(await therapyRepository.therapy(id)))
+        dispatch(medicamentsFetched(await therapyRepository.medicaments()))
     } catch (error) {
         console.log(error.message)
     }

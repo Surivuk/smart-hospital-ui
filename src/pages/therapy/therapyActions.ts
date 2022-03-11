@@ -36,14 +36,16 @@ export const removeMedicamentLocally = (medicament: string): AppThunk => async (
 }
 export const addMedicament = (): AppThunk => async (dispatch, getState) => {
     try {
-        const medicament = getState().medicament
+        const { medicamentId, strength, amount, route, frequency  } = getState().medicament
         const { medicaments } = getState().therapy
-        if (medicaments.find(m => m.medicamentId === medicament.medicamentId) !== undefined)
+        if (medicaments.find(m => m.medicamentId === medicamentId) !== undefined)
             throw new Error("Medicament already exists")
         dispatch(medicamentAdded({
-            ...medicament,
-            strength: parseInt(medicament.strength),
-            amount: parseInt(medicament.amount)
+            medicamentId,
+            route,
+            frequency,
+            strength: parseInt(strength),
+            amount: parseInt(amount)
         }))
     } catch (error) {
         console.log(error.message)

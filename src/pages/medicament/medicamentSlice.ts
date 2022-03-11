@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface MedicamentState {
+    medicaments: { key: string, value: string }[]
     medicamentId: string
     strength: string
     amount: string
@@ -10,6 +11,7 @@ interface MedicamentState {
 }
 
 const initialState: MedicamentState = {
+    medicaments: [],
     medicamentId: "",
     strength: "",
     amount: "",
@@ -22,6 +24,9 @@ export const MedicamentSlice = createSlice({
     name: 'medicament',
     initialState,
     reducers: {
+        medicamentsFetched: (state, { payload }) => {
+            state.medicaments = payload.map((m: any) => ({ key: m.id, value: m.name }))
+        },
         medicamentAdded: (state) => {
             state.added = true
         },
@@ -29,11 +34,11 @@ export const MedicamentSlice = createSlice({
             const key: "medicamentId" | "strength" | "amount" | "route" | "frequency" = payload.type
             state[key] = payload.value
         },
-        stateRestarted: () => {
-            return initialState
+        stateRestarted: (state) => {
+            return { ...initialState, medicaments: state.medicaments }
         }
     }
 })
 
-export const { stateRestarted, medicamentFormInputChanged, medicamentAdded } = MedicamentSlice.actions
+export const { stateRestarted, medicamentFormInputChanged, medicamentAdded, medicamentsFetched } = MedicamentSlice.actions
 export default MedicamentSlice.reducer
