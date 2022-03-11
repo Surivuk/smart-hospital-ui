@@ -1,4 +1,12 @@
-import { Box, Button, Divider, Grid, List, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  List,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -12,10 +20,7 @@ import MedicalCardView from "./MedicalCardView";
 export default function MedicalCard() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { patient, medicalCard } = useAppSelector((state) => ({
-    patient: state.medicalCard.patient,
-    medicalCard: state.medicalCard.medicalCard,
-  }));
+  const { patient, medicalCard } = useAppSelector((state) => state.medicalCard);
 
   React.useEffect(() => {
     return () => {
@@ -38,21 +43,32 @@ export default function MedicalCard() {
 
       <Paper variant="outlined" sx={{ marginBottom: 2 }}>
         <Grid container direction="row" alignItems="center">
-          <Grid item xs><Button fullWidth component={Link} to="prescribe-therapy">New Therapy</Button></Grid>
-          <Grid item xs><Button fullWidth component={Link} to="new-examination">New Examination</Button></Grid>
-          <Grid item xs><Button fullWidth>New Treatment</Button></Grid>
+          <Grid item xs>
+            <Button fullWidth component={Link} to="prescribe-therapy">
+              New Therapy
+            </Button>
+          </Grid>
+          <Grid item xs>
+            <Button fullWidth component={Link} to="new-examination">
+              New Examination
+            </Button>
+          </Grid>
+          <Grid item xs>
+            <Button fullWidth component={Link} to="open-treatment">
+              New Treatment
+            </Button>
+          </Grid>
         </Grid>
       </Paper>
 
       <Paper variant="outlined">
         <List>
-          {medicalCard ? (
-            <MedicalCardView medicalCard={medicalCard} />
-          ) : (
-            <Typography variant="body1" align="center">
+          {medicalCard && medicalCard.events.length === 0 && (
+            <Typography textAlign="center" sx={{ padding: 2 }}>
               No medical history
             </Typography>
           )}
+          {medicalCard && <MedicalCardView medicalCard={medicalCard} />}
         </List>
       </Paper>
     </Box>

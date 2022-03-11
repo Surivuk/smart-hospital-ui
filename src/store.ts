@@ -10,6 +10,7 @@ import NewAlarmReducer from "./pages/alarm/new/newAlarmSlice"
 import ViewAlarmReducer from "./pages/alarm/view/viewAlarmSlice"
 import HealthDataReducer from "./pages/healthData/healthDataSlice"
 import ExaminationReducer from "./pages/examination/examinationSlice"
+import PatientReducer from "./pages/patient/patientSlice"
 
 const container = new DependencyContainer()
 export const dependency = container.dependency
@@ -17,6 +18,7 @@ export const dependency = container.dependency
 export const store = configureStore({
     reducer: {
         patients: PatientsReducer,
+        patient: PatientReducer,
         medicalCard: MedicalCardReducer,
         hospitalTreatment: HospitalTreatmentReducer,
         therapy: TherapyReducer,

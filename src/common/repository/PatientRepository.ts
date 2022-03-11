@@ -25,6 +25,18 @@ export default class PatientRepository extends Api {
         })
         return this.map(result.data)
     }
+    async addPatient(firstName: string, lastName: string, gender: string, birthYear: string): Promise<void> {
+        await this._nwc.request<any>({
+            url: this.url(`/patients`),
+            method: "POST",
+            data: {
+                firstName,
+                lastName,
+                gender,
+                birthYear
+            }
+        })
+    }
 
     private map({ id, firstName, lastName, birthYear, gender }: any): Patient {
         return {

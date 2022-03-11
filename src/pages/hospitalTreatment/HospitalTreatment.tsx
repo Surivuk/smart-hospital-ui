@@ -1,5 +1,6 @@
 import { Add } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Divider,
   Grid,
@@ -7,6 +8,7 @@ import {
   List,
   ListItem,
   Paper,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -31,9 +33,8 @@ import { stateRestarted } from "./treatmentSlice";
 export default function HospitalTreatment() {
   const { id, treatmentId } = useParams();
   const dispatch = useDispatch();
-  const { therapies, closed, closedView } = useAppSelector(
-    (state) => state.hospitalTreatment
-  );
+  const { therapies, closed, closedView, diagnosis, monitoringDevice } =
+    useAppSelector((state) => state.hospitalTreatment);
 
   React.useEffect(() => {
     return () => {
@@ -67,12 +68,18 @@ export default function HospitalTreatment() {
         }
       />
       {closed && (
-        <Typography variant="subtitle1" sx={{ padding: 2, color: red[500] }}>
-          This hospital treatment is closed
-        </Typography>
+        <Box sx={{ padding: 2}}>
+          <Alert severity="warning" variant="standard">This hospital treatment is closed</Alert>
+        </Box>
       )}
+      <Typography
+        variant="subtitle1"
+        textAlign="center"
+        sx={{ marginBottom: -2, marginTop: 2 }}
+      >
+        {monitoringDevice}
+      </Typography>
       <Monitoring />
-
       <Grid
         container
         direction="row"
@@ -82,12 +89,24 @@ export default function HospitalTreatment() {
         <Typography
           variant="overline"
           align="center"
+          textAlign="center"
           component={Link}
           to={`/health-data?treatment=${treatmentId}&medicalCardId=${id}`}
         >
           View health data history
         </Typography>
       </Grid>
+
+      <Box sx={{ padding: 2 }}>
+        <TextField
+          label="Diagnosis"
+          value={diagnosis}
+          fullWidth
+          multiline
+          disabled
+          rows={5}
+        />
+      </Box>
 
       <Paper variant="outlined" sx={{ margin: 2 }}>
         <Grid
@@ -124,7 +143,6 @@ export default function HospitalTreatment() {
         <List>
           {therapies.length === 0 && (
             <Typography textAlign="center" sx={{ padding: 2 }}>
-              {" "}
               No therapies
             </Typography>
           )}

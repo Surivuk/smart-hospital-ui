@@ -1,5 +1,5 @@
 import { AppThunk } from '../../AppThunk';
-import { closedTreatment, monitoringUpdated, treatmentDataFetched } from './treatmentSlice';
+import { closedTreatment, openedTreatment, monitoringUpdated, treatmentDataFetched } from './treatmentSlice';
 
 
 export const fetchHospitalTreatmentData = (id: string): AppThunk => async (dispatch, getState, { hospitalTreatmentRepository }) => {
@@ -31,6 +31,16 @@ export const closeHospitalTreatment = (id: string): AppThunk => async (dispatch,
         if (id === undefined) throw new Error("Provided treatment id is undefined.")
         await hospitalTreatmentRepository.closeHospitalTreatments(id)
         dispatch(closedTreatment())
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+export const openTreatment = (id: string): AppThunk => async (dispatch, getState, { hospitalTreatmentRepository }) => {
+    try {
+        if (id === undefined) throw new Error("Provided medicalCard id is undefined.")
+        const { diagnosis } = getState().hospitalTreatment
+        await hospitalTreatmentRepository.openTreatment(id, diagnosis)
+        dispatch(openedTreatment())
     } catch (error) {
         console.log(error.message)
     }

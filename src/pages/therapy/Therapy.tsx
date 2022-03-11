@@ -83,8 +83,8 @@ export default function Therapy() {
         iconType={
           treatmentId !== undefined ? "therapy" : "medical-card-therapy"
         }
-        actionTitle={treatmentId !== undefined ? "remove therapy" : undefined}
-        action={treatmentId !== undefined ? () => dispatch(removeTherapy(treatmentId as string, therapyId as string)) : undefined}
+        actionTitle={(!disabled && treatmentId !== undefined) ? "remove therapy" : undefined}
+        action={(!disabled && treatmentId !== undefined)  ? () => dispatch(removeTherapy(treatmentId as string, therapyId as string)) : undefined}
       />
 
       <Paper variant="outlined" sx={{ margin: 2 }}>

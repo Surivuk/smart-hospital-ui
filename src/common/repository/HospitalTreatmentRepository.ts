@@ -2,8 +2,10 @@ import Api from "../Api";
 import NetworkController from "../NetworkController";
 
 export type HospitalTreatment = {
-    therapies: { id: string, label: string, createdAt: string  }[]
-    patient: string,
+    therapies: { id: string, label: string, createdAt: string }[]
+    diagnosis: string
+    monitoring: string
+    patient: string
     closed: boolean
     createdAt: string
 }
@@ -16,7 +18,6 @@ export default class HospitalTreatmentRepository extends Api {
             url: this.url(`/hospital-treatments/${id}`),
             method: "GET"
         });
-        console.log(this.map(result.data))
         return this.map(result.data);
     }
     async activeHospitalTreatments(): Promise<HospitalTreatment[]> {
@@ -27,7 +28,7 @@ export default class HospitalTreatmentRepository extends Api {
         return result.data.filter((t: any) => t.closed === false);
     }
     async closeHospitalTreatments(id: string): Promise<void> {
-        const result = await this._nwc.request<any>({
+        await this._nwc.request<any>({
             url: this.url(`/hospital-treatments/${id}/close`),
             method: "POST"
         });
@@ -39,11 +40,20 @@ export default class HospitalTreatmentRepository extends Api {
             data: { therapyId }
         })
     }
+    async openTreatment(medicalCardId: string, diagnosis: string): Promise<void> {
+        await this._nwc.request<any>({
+            url: this.url(`/hospital-treatments`),
+            method: "POST",
+            data: { medicalCardId, diagnosis }
+        })
+    }
 
 
-    private map({ therapies, closed, patient, createdAt }: any): HospitalTreatment {
+    private map({ therapies, closed, diagnosis, patient, monitoring, createdAt }: any): HospitalTreatment {
         return {
-            therapies: therapies.map((t: any) => ({ id: t.therapyId, label: t.label, createdAt: t.createdAt })),
+            therapies: therapies.map((t: any) => ({ id: t.therapyId, label: t.label, createdAt: new Date(t.createdAt).toLocaleString() })),
+            monitoring,
+            diagnosis,
             patient,
             closed,
             createdAt

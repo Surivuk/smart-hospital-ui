@@ -1,16 +1,15 @@
-import { Add, Search } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import {
   Typography,
-  Box,
-  TextField,
-  InputAdornment,
   List,
   ListItem,
   Grid,
   IconButton,
   Tooltip,
   Divider,
+  Paper,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -23,22 +22,14 @@ function PatientsHeader() {
   return (
     <Grid container direction="row" alignItems="center">
       <Grid item xs>
-        <Typography textAlign="left" variant="h4" sx={{ padding: 2 }}>
+        <Typography textAlign="left" variant="h5">
           Patients
         </Typography>
       </Grid>
       <Grid item xs>
-        <Grid
-          container
-          justifyContent="flex-end"
-          sx={(theme) => ({ paddingRight: theme.spacing(2) })}
-        >
+        <Grid container justifyContent="flex-end">
           <Tooltip title="Add new patient">
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
+            <IconButton color="primary" component={Link} to="add-patient">
               <Add />
             </IconButton>
           </Tooltip>
@@ -57,12 +48,17 @@ export default function Patients() {
   }, [dispatch]);
 
   return (
-    <div>
-      <div>
-        <PatientsHeader />
-        <Divider />
+    <Box sx={{ padding: 2 }}>
+      <PatientsHeader />
 
+      <Paper variant="outlined" sx={{ marginTop: 2 }}>
         <List>
+          {patients.length === 0 && (
+            <Typography textAlign="center" sx={{ padding: 2 }}>
+              {" "}
+              No Patients
+            </Typography>
+          )}
           {patients.map((patient, index) => (
             <ListItem
               button
@@ -74,7 +70,7 @@ export default function Patients() {
             </ListItem>
           ))}
         </List>
-      </div>
-    </div>
+      </Paper>
+    </Box>
   );
 }

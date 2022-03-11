@@ -123,7 +123,7 @@ export default function Alarms() {
 
   return (
     <Box>
-      <Grid container direction="row" alignContent="center" sx={{ padding: 2 }}>
+      <Grid container direction="row" alignItems="center" sx={{ padding: 2 }}>
         <Grid item xs>
           <Typography variant="h5">Alarms</Typography>
         </Grid>

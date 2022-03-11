@@ -15,6 +15,8 @@ import ViewAlarm from "./pages/alarm/view/ViewAlarm";
 import HealthData from "./pages/healthData/HealthData";
 import NewExamination from "./pages/examination/NewExamination";
 import Examination from "./pages/examination/Examination";
+import NewTreatment from "./pages/hospitalTreatment/NewTreatment";
+import NewPatient from "./pages/patient/NewPatient";
 
 export default function AppRouter() {
   return (
@@ -22,7 +24,10 @@ export default function AppRouter() {
       <Routes>
         <Route path="/app" element={<App />}>
           <Route path="patients" element={<Patients />} />
+          <Route path="patients/add-patient" element={<NewPatient />} />
+
           <Route path="medical-card/:id" element={<MedicalCard />} />
+          <Route path="medical-card/:id/open-treatment" element={<NewTreatment />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId" element={<HospitalTreatment />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId/determine-therapy" element={<DetermineTherapy />} />
           <Route path="medical-card/:id/hospital-treatments/:treatmentId/therapies/:therapyId" element={<Therapy />} />

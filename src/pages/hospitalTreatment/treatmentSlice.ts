@@ -1,9 +1,10 @@
-import { IosShare } from '@mui/icons-material'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 interface TreatmentState {
     therapies: { id: string, label: string, createdAt: string }[],
     closed: boolean;
+    diagnosis: string
+    monitoringDevice: string
     monitoring: {
         SPO2: string
         "systolic-blood-pressure": string
@@ -14,11 +15,14 @@ interface TreatmentState {
         timestamp: string
     }
     closedView: boolean
+    opened: boolean;
 }
 
 const initialState: TreatmentState = {
     therapies: [],
     closed: false,
+    diagnosis: "",
+    monitoringDevice: "",
     monitoring: {
         SPO2: "-",
         "systolic-blood-pressure": "-",
@@ -28,7 +32,8 @@ const initialState: TreatmentState = {
         temperature: "-",
         timestamp: "-"
     },
-    closedView: false
+    closedView: false,
+    opened: false
 }
 
 export const TreatmentCardSlice = createSlice({
@@ -38,14 +43,22 @@ export const TreatmentCardSlice = createSlice({
         treatmentDataFetched: (state, { payload }) => {
             state.therapies = payload.therapies;
             state.closed = payload.closed
+            state.diagnosis = payload.diagnosis
+            state.monitoringDevice = payload.monitoring
         },
         monitoringUpdated: (state, { payload }) => {
             const key: "SPO2" | "PI" | "pulse" | "temperature" | "systolic-blood-pressure" | "diastolic-blood-pressure" = payload.type
             state.monitoring[key] = payload.value
             state.monitoring["timestamp"] = new Date(payload.timestamp).toLocaleString()
         },
+        diagnosisChanged: (state, { payload }) => {
+            state.diagnosis = payload
+        },
         closedTreatment: (state) => {
             state.closedView = true
+        },
+        openedTreatment: (state) => {
+            state.opened = true
         },
         stateRestarted: () => {
             return initialState
@@ -53,5 +66,5 @@ export const TreatmentCardSlice = createSlice({
     }
 })
 
-export const { treatmentDataFetched, stateRestarted, monitoringUpdated, closedTreatment } = TreatmentCardSlice.actions
+export const { treatmentDataFetched, stateRestarted, monitoringUpdated, closedTreatment, openedTreatment, diagnosisChanged } = TreatmentCardSlice.actions
 export default TreatmentCardSlice.reducer
