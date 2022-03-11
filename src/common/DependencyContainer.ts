@@ -6,6 +6,7 @@ import TherapyRepository from "./repository/TherapyRepository"
 import { io, Socket } from "socket.io-client";
 import AlarmRepository from "./repository/AlarmRepository"
 import HealthDataRepository from "./repository/HealthDataRepository"
+import ExaminationRepository from "./repository/ExaminationRepository"
 
 export type Dependency = {
     patientRepository: PatientRepository
@@ -14,6 +15,7 @@ export type Dependency = {
     therapyRepository: TherapyRepository
     alarmsRepository: AlarmRepository,
     healthDataRepository: HealthDataRepository,
+    examinationRepository: ExaminationRepository
     socket: Socket
 }
 
@@ -36,6 +38,7 @@ export default class DependencyContainer {
             therapyRepository: new TherapyRepository(this._nwc),
             alarmsRepository: new AlarmRepository(this._nwc),
             healthDataRepository: new HealthDataRepository(this._nwc),
+            examinationRepository: new ExaminationRepository(this._nwc),
             socket: socket
         }
     }

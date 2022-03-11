@@ -27,7 +27,7 @@ export const removeMedicament = (id: string, medicament: string): AppThunk => as
         console.log(error.message)
     }
 }
-export const removeMedicamentLocally = (medicament: string): AppThunk => async (dispatch, getState, { therapyRepository }) => {
+export const removeMedicamentLocally = (medicament: string): AppThunk => async (dispatch, getState) => {
     try {
         dispatch(medicamentRemoved(medicament))
     } catch (error) {

@@ -39,7 +39,7 @@ export default function MedicalCard() {
       <Paper variant="outlined" sx={{ marginBottom: 2 }}>
         <Grid container direction="row" alignItems="center">
           <Grid item xs><Button fullWidth component={Link} to="prescribe-therapy">New Therapy</Button></Grid>
-          <Grid item xs><Button fullWidth>New Examination</Button></Grid>
+          <Grid item xs><Button fullWidth component={Link} to="new-examination">New Examination</Button></Grid>
           <Grid item xs><Button fullWidth>New Treatment</Button></Grid>
         </Grid>
       </Paper>

@@ -32,9 +32,6 @@ export default function AddMedicament() {
     route: state.medicament.route,
   }));
 
-  const onChange = (payload: { type: string; value: string }) => {
-    dispatch(medicamentFormInputChanged(payload));
-  };
   const onSubmit = () => {
     dispatch(addMedicament(therapyId as string));
   };

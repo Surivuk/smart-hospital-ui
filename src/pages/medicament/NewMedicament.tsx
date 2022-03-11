@@ -34,12 +34,6 @@ export default function NewMedicament(props: NewMedicamentProps) {
   const onSubmit = () => {
     props.handleSubmit(state);
   };
-  const onChange = (payload: { type: string; value: string }) => {
-    setState({
-      ...state,
-      [payload.type]: payload.value,
-    });
-  };
   const onClose = () => {
     props.handleClose();
     setState(defaultState);

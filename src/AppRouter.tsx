@@ -13,6 +13,8 @@ import Therapy from "./pages/therapy/Therapy";
 import NewAlarm from "./pages/alarm/new/NewAlarm";
 import ViewAlarm from "./pages/alarm/view/ViewAlarm";
 import HealthData from "./pages/healthData/HealthData";
+import NewExamination from "./pages/examination/NewExamination";
+import Examination from "./pages/examination/Examination";
 
 export default function AppRouter() {
   return (
@@ -28,6 +30,9 @@ export default function AppRouter() {
 
           <Route path="medical-card/:id/therapies/:therapyId" element={<StaticTherapy />} />
           <Route path="medical-card/:id/prescribe-therapy" element={<PrescribeTherapy />} />
+
+          <Route path="medical-card/:id/new-examination" element={<NewExamination />} />
+          <Route path="medical-card/:id/examinations/:examinationId" element={<Examination />} />
 
           <Route path="alarms" element={<Alarms />} />
           <Route path="alarms/:alarmId" element={<ViewAlarm />} />
