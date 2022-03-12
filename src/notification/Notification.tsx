@@ -11,12 +11,13 @@ export const Notification = React.memo(() => {
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
+    const socket = dependency().socket;
     if (first) {
       first = false;
     } else {
-      dependency.socket.off("alarms");
+      socket.off("alarms");
     }
-    dependency.socket.on("alarms", (data) => {
+    socket.on("alarms", (data) => {
       data = JSON.parse(data);
       enqueueSnackbar(data.message, {
         anchorOrigin: { horizontal: "right", vertical: "top" },

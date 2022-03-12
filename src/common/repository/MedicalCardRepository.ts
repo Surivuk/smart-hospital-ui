@@ -8,7 +8,6 @@ export type MedicalCard = {
 }
 
 export default class MedicalCardRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async medicalCard(id: string): Promise<MedicalCard[]> {
         const result = await this._nwc.request<any[]>({

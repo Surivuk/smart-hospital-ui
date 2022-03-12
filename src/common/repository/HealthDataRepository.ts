@@ -12,7 +12,6 @@ export type HealthData = {
 }
 
 export default class HealthDataRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async healthData(date: string, treatment: string): Promise<HealthData[]> {
         const result = await this._nwc.request<any>({

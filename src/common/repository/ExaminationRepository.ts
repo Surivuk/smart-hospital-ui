@@ -8,7 +8,6 @@ export type Examination = {
 }
 
 export default class ExaminationRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async examination(id: string): Promise<Examination[]> {
         const result = await this._nwc.request<any>({

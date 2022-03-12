@@ -24,21 +24,21 @@ export default class DependencyContainer {
 
     private readonly _nwc: NetworkController = new NetworkController()
 
-    constructor() {
-        const socket = io(process.env.REACT_APP_API_URL as string);
+    constructor(env: any) {
+        const socket = io(env.REACT_APP_API_URL);
         socket.on("connect", () => {
             console.log("Connected...")
         })
 
 
         this.dependency = {
-            patientRepository: new PatientRepository(this._nwc),
-            medicalCardRepository: new MedicalCardRepository(this._nwc),
-            hospitalTreatmentRepository: new HospitalTreatmentRepository(this._nwc),
-            therapyRepository: new TherapyRepository(this._nwc),
-            alarmsRepository: new AlarmRepository(this._nwc),
-            healthDataRepository: new HealthDataRepository(this._nwc),
-            examinationRepository: new ExaminationRepository(this._nwc),
+            patientRepository: new PatientRepository(env, this._nwc),
+            medicalCardRepository: new MedicalCardRepository(env, this._nwc),
+            hospitalTreatmentRepository: new HospitalTreatmentRepository(env, this._nwc),
+            therapyRepository: new TherapyRepository(env, this._nwc),
+            alarmsRepository: new AlarmRepository(env, this._nwc),
+            healthDataRepository: new HealthDataRepository(env, this._nwc),
+            examinationRepository: new ExaminationRepository(env, this._nwc),
             socket: socket
         }
     }

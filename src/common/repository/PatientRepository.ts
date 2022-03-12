@@ -9,7 +9,6 @@ export type Patient = {
 }
 
 export default class PatientRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async patients(): Promise<Patient[]> {
         const result = await this._nwc.request<any[]>({

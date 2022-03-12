@@ -21,7 +21,6 @@ export type AlarmNotification = {
 }
 
 export default class AlarmRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async alarms(): Promise<Alarm[]> {
         const result = await this._nwc.request<any>({

@@ -11,7 +11,6 @@ export type HospitalTreatment = {
 }
 
 export default class HospitalTreatmentRepository extends Api {
-    constructor(private readonly _nwc: NetworkController) { super() }
 
     async hospitalTreatment(id: string): Promise<HospitalTreatment> {
         const result = await this._nwc.request<any>({
