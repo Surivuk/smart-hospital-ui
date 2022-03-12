@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Alarms from "./pages/alarms/Alarms";
 import Patients from "./pages/patients/Patients";
@@ -22,6 +22,7 @@ export default function AppRouter() {
   return (
     <div>
       <Routes>
+        <Route path="/" element={<Navigate to="/app/patients" />}/>
         <Route path="/app" element={<App />}>
           <Route path="patients" element={<Patients />} />
           <Route path="patients/add-patient" element={<NewPatient />} />
