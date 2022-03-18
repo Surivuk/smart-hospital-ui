@@ -1,6 +1,13 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { HealthData } from '../../common/repository/HealthDataRepository'
 import { Medicament } from '../../common/repository/TherapyRepository'
+
+function nowDate() {
+    const now = new Date()
+    const m = `${now.getMonth() + 1}`
+    const d = `${now.getDate()}`
+    return `${now.getFullYear()}-${m.length === 1 ? `0${m}` : m}-${d.length === 1 ? `0${d}` : d}`
+}
 
 interface HealthDataState {
     healthData: HealthData[]
@@ -11,7 +18,7 @@ interface HealthDataState {
 const initialState: HealthDataState = {
     healthData: [],
     medicaments: [],
-    selectedDate: new Date().toISOString().slice(0, 10)
+    selectedDate: nowDate()
 }
 
 export const HealthDataSlice = createSlice({

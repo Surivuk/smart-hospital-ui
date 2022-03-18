@@ -17,14 +17,28 @@ export default class HospitalTreatmentRepository extends Api {
             url: this.url(`/hospital-treatments/${id}`),
             method: "GET"
         });
-        return this.map(result.data);
+        const monitor = (await this._nwc.request<any>({
+            url: this.url(`/monitoring?treatmentId=${id}`),
+            method: "GET"
+        })).data;
+        return this.map({ ...result.data, monitoring: monitor.id });
     }
     async activeHospitalTreatments(): Promise<HospitalTreatment[]> {
-        const result = await this._nwc.request<any>({
+        const treatments = await this._nwc.request<any>({
             url: this.url(`/hospital-treatments`),
             method: "GET"
         });
-        return result.data.filter((t: any) => t.closed === false);
+        const patients = (await this._nwc.request<any[]>({
+            url: this.url(`/patients`),
+            method: "GET"
+        })).data;
+        return treatments.data
+            .filter((t: any) => t.closed === false)
+            .map((t: any) => {
+                const patient = patients.find((p: any) => p.id === t.medicalCard)
+                if (patient === undefined) return t;
+                return { ...t, patient: `${patient.firstName} ${patient.lastName} (${patient.birthYear})` };
+            })
     }
     async closeHospitalTreatments(id: string): Promise<void> {
         await this._nwc.request<any>({
