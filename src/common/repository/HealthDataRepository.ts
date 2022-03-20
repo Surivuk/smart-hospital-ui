@@ -48,7 +48,7 @@ export default class HealthDataRepository extends Api {
     }
 
     private time(value: string) {
-        const date = new Date(value);
+        const date = new Date(parseInt(value));
         // date.setSeconds(0);
         date.setMilliseconds(0)
         return date.toLocaleString()
